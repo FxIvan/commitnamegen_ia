@@ -38,3 +38,13 @@ Ejemplo:
 [FIXES] #249 Arreglo de auth0 
 
 ```
+
+JSON POST EXAMPLE:
+```json
+{
+    "type": "FIX",
+    "idticket": 850,
+    "description": "Agregar dominio para manejo de usuarios",
+    "creation_time": "2024-11-01T15:30:00Z"
+}
+```
