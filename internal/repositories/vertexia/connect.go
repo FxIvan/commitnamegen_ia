@@ -13,7 +13,7 @@ func formatJSON(data []byte) string {
 	// Convertir `data` a string para manejar líneas individualmente
 	dataStr := string(data)
 
-	var jsonResponseText []string
+	var strBuilder strings.Builder
 	for _, line := range strings.Split(dataStr, "\n") {
 		if strings.HasPrefix(line, "data: ") {
 
@@ -34,7 +34,7 @@ func formatJSON(data []byte) string {
 						if parts, ok := content["parts"].([]interface{}); ok {
 							if len(parts) > 0 {
 								if text, ok := parts[0].(map[string]interface{})["text"].(string); ok {
-									jsonResponseText = append(jsonResponseText, text)
+									strBuilder.WriteString(text)
 								} else {
 									fmt.Println("Campo 'text' no encontrado o no es una cadena")
 								}
@@ -57,18 +57,7 @@ func formatJSON(data []byte) string {
 		}
 	}
 
-	// Combinar los bloques en un solo array JSON
-	cleanedData := strings.Join(jsonResponseText, "\n")
-
-	// Formatear el JSON
-	var out bytes.Buffer
-	err := json.Indent(&out, []byte(cleanedData), "", "  ")
-	if err != nil {
-		fmt.Println("Error al formatear JSON:", err)
-		return cleanedData // Retornar JSON sin formato en caso de error
-	}
-
-	return out.String()
+	return strBuilder.String()
 }
 
 func MakeRequests() error {
